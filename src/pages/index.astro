@@ -1,0 +1,223 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/Hero.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import FocusAreaCard from '@/components/FocusAreaCard.astro';
+import PillarCard from '@/components/PillarCard.astro';
+import ProductCard from '@/components/ProductCard.astro';
+import CTABand from '@/components/CTABand.astro';
+import Icon from '@/components/Icon.astro';
+import { pages } from '@/config/pages';
+import { site } from '@/config/site';
+import { getProducts } from '@/lib/products';
+
+const products = await getProducts();
+const intro1 =
+  'ZenAvian Healthcare is a poultry-focused healthcare company dedicated to supporting poultry farmers, veterinarians and the wider poultry industry with dependable veterinary pharmaceutical and nutritional solutions.';
+const intro2 =
+  'We focus on developing and delivering products that address real farm challenges, combining the expertise of international manufacturing partners with a strong understanding of the Indian poultry market.';
+
+const focus = [
+  {
+    icon: 'pill',
+    title: 'Poultry Therapeutics',
+    href: '/poultry-healthcare-solutions#poultry-therapeutics',
+    text: 'Therapeutic products for poultry, used as per the product label and veterinary advice.',
+  },
+  {
+    icon: 'flask-conical',
+    title: 'Veterinary Pharmaceuticals',
+    href: '/poultry-healthcare-solutions#veterinary-pharmaceuticals',
+    text: 'Veterinary pharmaceutical products sourced from approved manufacturing partners.',
+  },
+  {
+    icon: 'bug',
+    title: 'Coccidiosis Management',
+    href: '/poultry-healthcare-solutions#coccidiosis-management',
+    text: 'Support for flocks facing coccidial challenges.',
+  },
+  {
+    icon: 'wind',
+    title: 'Respiratory Health',
+    href: '/poultry-healthcare-solutions#respiratory-health',
+    text: 'Solutions for farms dealing with respiratory challenges.',
+  },
+  {
+    icon: 'activity',
+    title: 'Gut Health',
+    href: '/poultry-healthcare-solutions#gut-health',
+    text: 'Understanding the role of gut health in flock performance.',
+  },
+  {
+    icon: 'wheat',
+    title: 'Poultry Nutrition & Supportive Care',
+    href: '/poultry-healthcare-solutions#nutrition-supportive-care',
+    text: 'Nutritional and supportive care that complements good farm management.',
+  },
+];
+const pillars = [
+  {
+    icon: 'badge-check',
+    title: 'Quality',
+    text: 'Carefully selected manufacturing partners and attention to quality at every step.',
+  },
+  {
+    icon: 'lightbulb',
+    title: 'Innovation',
+    text: 'Scientific thinking applied to the practical challenges of poultry farming.',
+  },
+  {
+    icon: 'shield-check',
+    title: 'Reliability',
+    text: 'Dependable products and professional service for the trade.',
+  },
+  {
+    icon: 'handshake',
+    title: 'Trust',
+    text: 'Honest information and long-term relationships with farmers, veterinarians and partners.',
+  },
+];
+---
+
+<BaseLayout title={pages.home.title} description={pages.home.description} ogImage="/og/home.png">
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href="/images/hero-illustration.svg"
+    fetchpriority="high"
+  />
+
+  <Hero title="Advancing Poultry Health. Supporting Better Performance." text={intro1} />
+
+  <section class="section" aria-labelledby="intro-h">
+    <div class="container-x grid gap-8 lg:grid-cols-5">
+      <h2 id="intro-h" class="text-3xl font-extrabold lg:col-span-2">
+        Focused on poultry healthcare
+      </h2>
+      <div class="prose-zen lg:col-span-3">
+        <p>{intro1}</p>
+        <p>{intro2}</p>
+      </div>
+    </div>
+  </section>
+
+  {site.stats.length > 0 && (
+    <section class="bg-mist section" aria-label="ZenAvian in numbers">
+      <dl class="container-x grid gap-6 sm:grid-cols-3">
+        {site.stats.map((s) => (
+          <div class="text-center">
+            <dt class="text-muted">{s.label}</dt>
+            <dd class="text-4xl font-extrabold text-deep">{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  )}
+
+  <section class="bg-mist section" aria-labelledby="focus-h">
+    <div class="container-x">
+      <SectionHeading id="focus-h" eyebrow="What we do" title="Our Key Focus Areas" center />
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {focus.map((f) => (
+          <FocusAreaCard {...f} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="why-h">
+    <div class="container-x">
+      <SectionHeading
+        id="why-h"
+        title="Why Choose ZenAvian?"
+        center
+        intro="We believe that better poultry health starts with quality products, scientific thinking and a strong understanding of real farm challenges."
+      />
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {pillars.map((p) => (
+          <PillarCard {...p} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-mist section" aria-labelledby="prod-h">
+    <div class="container-x">
+      <SectionHeading
+        id="prod-h"
+        eyebrow="Products"
+        title="Featured products"
+        intro="Four poultry healthcare products, each presented with its focus and category. Always refer to the approved product label."
+      />
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {products.map((p) => (
+          <ProductCard product={p} />
+        ))}
+      </div>
+      <p class="mt-8">
+        <a class="btn-outline" href="/products">
+          View all products
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="commit-h">
+    <div class="container-x max-w-3xl text-center">
+      <SectionHeading id="commit-h" title="Our Commitment" center />
+      <p class="text-lg">
+        Our commitment is to support poultry health through quality products, scientific thinking
+        and dependable service to the veterinarians, farmers and distributors we work with.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-mist-flip section" aria-labelledby="q-h">
+    <div class="container-x grid items-center gap-8 md:grid-cols-[auto_1fr_auto]">
+      <span class="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-sky-700 shadow-[var(--shadow-soft)]">
+        <Icon name="shield-check" size={34} />
+      </span>
+      <div>
+        <h2 id="q-h" class="text-2xl font-extrabold">
+          Quality You Can Trust
+        </h2>
+        <p class="mt-2 max-w-2xl text-muted">
+          We work with carefully selected international manufacturing partners to source reliable
+          poultry healthcare products.
+        </p>
+      </div>
+      <a href="/quality-manufacturing" class="btn-primary">
+        Quality &amp; Manufacturing
+      </a>
+    </div>
+  </section>
+
+  <CTABand
+    title="Download our product catalogue"
+    text="A compact overview of all ZenAvian Healthcare products, in PDF."
+    primary={{
+      label: 'Download Catalogue (PDF)',
+      href: '/downloads/ZenAvian-Healthcare-Catalogue.pdf',
+      download: true,
+      track: 'catalogue-download',
+      icon: 'download',
+    }}
+    secondary={{ label: 'View catalogue page', href: '/product-catalogue' }}
+  />
+  <CTABand
+    tone="light"
+    title="Partner with ZenAvian Healthcare"
+    text="Distributors, dealers, veterinarians and poultry businesses are welcome to enquire."
+    primary={{ label: 'Distributor enquiry', href: '/distributor-enquiry' }}
+    secondary={{ label: 'Contact us', href: '/contact' }}
+  />
+
+  <section class="on-dark bg-deep py-14 text-center">
+    <div class="container-x">
+      <p class="font-display text-2xl font-extrabold text-white sm:text-3xl">
+        ZenAvian Healthcare - Healthy Birds. Better Performance. Stronger Future.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  icon: string;
+  title: string;
+  href: string;
+  text: string;
+}
+const { icon, title, href, text } = Astro.props;
+---
+
+<a href={href} class="card group reveal block h-full transition-shadow hover:shadow-lg">
+  <span class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-mist-100 text-sky-700">
+    <Icon name={icon} size={26} />
+  </span>
+  <h3 class="text-xl font-bold">{title}</h3>
+  <p class="mt-2 text-sm text-muted">{text}</p>
+  <span class="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-sky-700 group-hover:underline">
+    Learn more <Icon name="arrow-right" size={16} />
+  </span>
+</a>

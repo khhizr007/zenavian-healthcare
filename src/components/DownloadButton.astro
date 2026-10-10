@@ -1,0 +1,18 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  href: string;
+  label: string;
+  meta?: string;
+  track?: string;
+}
+const { href, label, meta, track = 'download' } = Astro.props;
+---
+
+<a href={href} download data-track={track} class="btn-primary">
+  <Icon name="download" size={20} />
+  <span>
+    {label}
+    {meta && <span class="ml-1 text-sm font-normal opacity-90">({meta})</span>}
+  </span>
+</a>

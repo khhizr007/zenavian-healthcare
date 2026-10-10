@@ -1,0 +1,80 @@
+---
+import Icon from './Icon.astro';
+import { site, has, formattedAddress, hasAddress, mapsDirectionsUrl } from '@/config/site';
+// PUBLIC_MAP_EMBED_URL is a build-time override (used by the e2e tests); production uses site.map.embedUrl.
+const envEmbed = import.meta.env.PUBLIC_MAP_EMBED_URL as string | undefined;
+const embed = envEmbed || (has(site.map.embedUrl) ? site.map.embedUrl : null);
+const place = has(site.map.placeUrl)
+  ? site.map.placeUrl
+  : hasAddress()
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(formattedAddress())}`
+    : null;
+const directions =
+  mapsDirectionsUrl() ??
+  (hasAddress()
+    ? `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(formattedAddress())}`
+    : null);
+---
+
+<div data-map class="overflow-hidden rounded-[16px] border border-sky-100">
+  <div
+    data-map-stage
+    class="flex aspect-[16/10] flex-col items-center justify-center gap-4 bg-mist-100 p-6 text-center"
+  >
+    <Icon name="map-pin" size={40} class="text-sky-700" />
+    {embed ? (
+      <>
+        <p class="max-w-sm text-sm text-muted">
+          The map loads from Google only when you choose to load it, to protect your privacy and
+          keep the page fast.
+        </p>
+        <button type="button" class="btn-primary" data-load-map data-src={embed}>
+          Load map
+        </button>
+      </>
+    ) : (
+      <p class="max-w-sm text-sm text-muted">Map location will be added soon.</p>
+    )}
+  </div>
+  {(place || directions) && (
+    <div class="flex flex-wrap gap-3 border-t border-sky-100 bg-white p-4">
+      {place && (
+        <a
+          class="btn-outline !min-h-12 !py-2"
+          href={place}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open in Google Maps <Icon name="external-link" size={16} />
+        </a>
+      )}
+      {directions && (
+        <a
+          class="btn-outline !min-h-12 !py-2"
+          href={directions}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon name="navigation" size={16} /> Get directions
+        </a>
+      )}
+    </div>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((root) => {
+    const btn = root.querySelector<HTMLButtonElement>('[data-load-map]');
+    btn?.addEventListener('click', () => {
+      const stage = root.querySelector<HTMLElement>('[data-map-stage]')!;
+      const f = document.createElement('iframe');
+      f.src = btn.dataset.src!;
+      f.title = 'Map showing the ZenAvian Healthcare location';
+      f.loading = 'lazy';
+      f.referrerPolicy = 'no-referrer-when-downgrade';
+      f.className = 'aspect-[16/10] w-full border-0';
+      f.setAttribute('allowfullscreen', '');
+      stage.replaceWith(f);
+    });
+  });
+</script>

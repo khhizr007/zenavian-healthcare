@@ -1,0 +1,116 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import { site, has, origin } from '@/config/site';
+import { organizationSchema, websiteSchema, breadcrumbSchema } from '@/lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  /** OG image path, e.g. /og/about.png */
+  ogImage?: string;
+  breadcrumbs?: { label: string; href: string }[];
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
+  /** Print/PDF routes render without site chrome */
+  bare?: boolean;
+  ogType?: 'website' | 'article';
+}
+const {
+  title,
+  description,
+  ogImage = '/og/home.png',
+  breadcrumbs,
+  schema = [],
+  noindex = false,
+  bare = false,
+  ogType = 'website',
+} = Astro.props;
+const path =
+  Astro.url.pathname
+    .replace(/\.html$/, '')
+    .replace(/\/$/, '')
+    .replace(/^\/index$/, '') || '/';
+const canonical = `${origin()}${path === '/' ? '/' : path}`;
+const ogUrl = `${origin()}${ogImage}`;
+const jsonld = [
+  ...(path === '/' ? [organizationSchema(), websiteSchema()] : []),
+  ...(breadcrumbs ? [breadcrumbSchema(breadcrumbs)] : []),
+  ...schema,
+];
+const cfToken = has(site.analytics.cloudflareToken) ? site.analytics.cloudflareToken : '';
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="theme-color" content="#0A2A66" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_IN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogUrl} />
+
+    <link
+      rel="preload"
+      href="/fonts/plus-jakarta-sans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+    <script is:inline src="/js/boot.js"></script>
+    {jsonld.map((j) => (
+      <script type="application/ld+json" set:html={JSON.stringify(j)} />
+    ))}
+  </head>
+  <body class="flex min-h-screen flex-col">
+    {!bare && (
+      <>
+        <a
+          href="#main"
+          class="sr-only z-50 rounded-b-xl bg-deep px-4 py-3 font-semibold text-white focus:not-sr-only focus:fixed focus:top-0 focus:left-4"
+        >
+          Skip to main content
+        </a>
+        <Header />
+      </>
+    )}
+    <main id="main" class="flex-1" tabindex="-1">
+      <slot />
+    </main>
+    {!bare && (
+      <>
+        <Footer />
+        <WhatsAppButton />
+      </>
+    )}
+    {cfToken && !bare && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={JSON.stringify({ token: cfToken })}
+      ></script>
+    )}
+  </body>
+</html>

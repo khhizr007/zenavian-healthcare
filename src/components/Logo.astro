@@ -1,0 +1,18 @@
+---
+import { site } from '@/config/site';
+interface Props {
+  light?: boolean;
+}
+const { light = false } = Astro.props;
+---
+
+<span class="inline-flex items-center gap-2.5">
+  <img src={site.logo.mark} width="40" height="40" alt="" class="h-10 w-10" />
+  <span class="font-display text-xl leading-none font-extrabold tracking-tight">
+    <span class={light ? 'text-white' : 'text-deep'}>ZenAvian</span>
+    <span class={light ? 'font-semibold text-sky-100' : 'font-semibold text-sky-700'}>
+      {' '}
+      Healthcare
+    </span>
+  </span>
+</span>

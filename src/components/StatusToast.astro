@@ -1,0 +1,39 @@
+---
+import { waLink, phoneHref, site } from '@/config/site';
+const phone = phoneHref();
+---
+
+<!-- aria-live status region for form feedback. Content is filled by src/scripts/forms.ts -->
+<div data-status role="status" aria-live="polite" tabindex="-1" class="mt-4 empty:hidden"></div>
+
+<template data-tpl-success>
+  <div class="rounded-xl border border-green-700 bg-green-50 p-5 text-green-900">
+    <p class="font-bold">Thank you. Your message has been received.</p>
+    <p class="mt-1">
+      We will get back to you {site.enquiryReplyTime}. A confirmation has been sent to your email.
+    </p>
+  </div>
+</template>
+
+<template data-tpl-error>
+  <div class="rounded-xl border border-red-700 bg-red-50 p-5 text-red-900">
+    <p class="font-bold" data-error-msg>
+      Sorry, we could not send your message.
+    </p>
+    <p class="mt-1">
+      Please try again, or reach us directly on
+      <a class="font-semibold underline" href={waLink()} target="_blank" rel="noopener noreferrer">
+        WhatsApp
+      </a>
+      {phone && (
+        <>
+          or call{' '}
+          <a class="font-semibold underline" href={phone}>
+            {site.phone}
+          </a>
+        </>
+      )}
+      .
+    </p>
+  </div>
+</template>

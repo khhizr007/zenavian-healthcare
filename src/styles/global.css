@@ -1,0 +1,153 @@
+@import 'tailwindcss';
+
+/* Self-hosted, latin-subset variable WOFF2 */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/plus-jakarta-sans-latin.woff2') format('woff2');
+}
+
+/*
+ * Design tokens. Contrast (WCAG 2.1 AA) on white:
+ *  deep #0A2A66 = 14.6:1 (body/key text)   ink #1E293B = 14.6:1   muted #475569 = 7.6:1
+ *  sky-700 #0369A1 = 5.9:1 -> button fill with white text, links, small coloured text
+ *  sky-600 #0284C7 = 4.1:1 -> LARGE headings (>=24px) and decoration only
+ *  sky-400/500 -> decoration, borders, gradients only (never text)
+ */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --color-sky-400: #38bdf8;
+  --color-sky-500: #0ea5e9;
+  --color-sky-600: #0284c7;
+  --color-sky-700: #0369a1;
+  --color-deep: #0a2a66;
+  --color-ink: #1e293b;
+  --color-muted: #475569;
+  --color-mist-50: #f0f9ff;
+  --color-mist-100: #e0f2fe;
+  --radius-card: 16px;
+  --shadow-soft: 0 6px 24px -8px rgb(10 42 102 / 0.14);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: #fff;
+  font-size: 1rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--color-deep);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+:focus-visible {
+  outline: 3px solid var(--color-deep);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.on-dark :focus-visible {
+  outline-color: #fff;
+}
+
+@utility container-x {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+@utility section {
+  @apply py-14 sm:py-20;
+}
+@utility bg-mist {
+  background: linear-gradient(
+    180deg,
+    var(--color-mist-50) 0%,
+    var(--color-mist-100) 55%,
+    #fff 100%
+  );
+}
+@utility bg-mist-flip {
+  background: linear-gradient(0deg, var(--color-mist-50) 0%, var(--color-mist-100) 100%);
+}
+@utility btn {
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-6 py-3 text-base font-semibold transition-colors;
+}
+@utility btn-primary {
+  @apply btn bg-sky-700 text-white hover:bg-deep;
+}
+@utility btn-outline {
+  @apply btn border-2 border-sky-700 bg-white text-sky-700 hover:bg-mist-50;
+}
+@utility btn-light {
+  @apply btn bg-white text-deep hover:bg-mist-100;
+}
+@utility card {
+  @apply rounded-[16px] border border-sky-100 bg-white p-6 shadow-[var(--shadow-soft)];
+}
+@utility field {
+  @apply block min-h-12 w-full rounded-xl border border-slate-500 bg-white px-4 py-3 text-base text-ink;
+}
+@utility label {
+  @apply mb-1.5 block text-sm font-semibold text-deep;
+}
+@utility err {
+  @apply mt-1 text-sm font-medium text-red-700;
+}
+@utility prose-zen {
+  & p {
+    @apply mb-4 max-w-prose text-ink;
+  }
+  & a {
+    @apply font-medium text-sky-700 underline underline-offset-2 hover:text-deep;
+  }
+}
+.field[aria-invalid='true'] {
+  border-color: #b91c1c;
+}
+/* Scroll reveal (progressive: content is visible without JS) */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+.js .reveal.in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.molecule-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='104' viewBox='0 0 120 104'%3E%3Cpath d='M30 2l28 16v32L30 66 2 50V18z' fill='none' stroke='%230284C7' stroke-opacity='.09' stroke-width='1.5'/%3E%3Ccircle cx='30' cy='2' r='3' fill='%230284C7' fill-opacity='.12'/%3E%3C/svg%3E");
+}

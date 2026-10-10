@@ -1,0 +1,50 @@
+---
+import Icon from './Icon.astro';
+interface Props {
+  title: string;
+  text?: string;
+  primary: { label: string; href: string; download?: boolean; track?: string; icon?: string };
+  secondary?: { label: string; href: string; external?: boolean };
+  tone?: 'dark' | 'light';
+}
+const { title, text, primary, secondary, tone = 'dark' } = Astro.props;
+---
+
+<section class:list={['section', tone === 'dark' ? 'on-dark bg-deep' : 'bg-mist']}>
+  <div class="container-x flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+    <div class="max-w-2xl">
+      <h2 class:list={['text-2xl font-extrabold sm:text-3xl', tone === 'dark' && '!text-white']}>
+        {title}
+      </h2>
+      {text && (
+        <p class:list={['mt-3 text-lg', tone === 'dark' ? 'text-sky-100' : 'text-muted']}>{text}</p>
+      )}
+    </div>
+    <div class="flex flex-wrap gap-3">
+      <a
+        href={primary.href}
+        download={primary.download ? '' : undefined}
+        data-track={primary.track}
+        class:list={[tone === 'dark' ? 'btn-light' : 'btn-primary']}
+      >
+        {primary.icon && <Icon name={primary.icon} size={20} />}
+        {primary.label}
+      </a>
+      {secondary && (
+        <a
+          href={secondary.href}
+          target={secondary.external ? '_blank' : undefined}
+          rel={secondary.external ? 'noopener noreferrer' : undefined}
+          class:list={[
+            'btn border-2',
+            tone === 'dark'
+              ? 'border-white text-white hover:bg-white/10'
+              : 'border-sky-700 text-sky-700 hover:bg-white',
+          ]}
+        >
+          {secondary.label}
+        </a>
+      )}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,121 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import FAQ from '@/components/FAQ.astro';
+import CTABand from '@/components/CTABand.astro';
+import Icon from '@/components/Icon.astro';
+import { pages } from '@/config/pages';
+import { overview, sections, faqs, responsibleUse } from '@/config/solutions';
+import { getProducts } from '@/lib/products';
+import { faqSchema } from '@/lib/seo';
+
+const all = await getProducts();
+const byId = Object.fromEntries(all.map((p) => [p.id, p.data.name]));
+const crumbs = [{ label: 'Poultry Healthcare Solutions', href: '/poultry-healthcare-solutions' }];
+---
+
+<BaseLayout
+  title={pages.solutions.title}
+  description={pages.solutions.description}
+  ogImage="/og/solutions.png"
+  breadcrumbs={crumbs}
+  schema={[faqSchema(faqs)]}
+>
+  <PageHeader
+    title="Poultry Healthcare Solutions"
+    intro="Practical, educational information on common poultry health challenges and how ZenAvian Healthcare supports farms."
+    crumbs={crumbs}
+  >
+    <nav aria-label="On this page" class="mt-6">
+      <ul class="flex flex-wrap gap-2">
+        {sections.map((s) => (
+          <li>
+            <a
+              class="inline-flex min-h-12 items-center rounded-full border-2 border-sky-700 bg-white px-4 text-sm font-semibold text-sky-700 hover:bg-mist-50"
+              href={`#${s.id}`}
+            >
+              {s.title.replace(/ \(.*\)/, '')}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container-x grid gap-5 md:grid-cols-2">
+      {overview.map((o) => (
+        <div class="card" id={o.id}>
+          <h2 class="text-2xl font-extrabold">{o.title}</h2>
+          <p class="mt-2 text-muted">{o.text}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {sections.map((s, i) => (
+    <section
+      id={s.id}
+      class:list={['section', i % 2 === 0 && 'bg-mist']}
+      aria-labelledby={`${s.id}-h`}
+    >
+      <div class="container-x">
+        <SectionHeading id={`${s.id}-h`} title={s.title} />
+        <div class="grid gap-6 lg:grid-cols-2">
+          <div class="prose-zen">
+            <h3 class="mb-1 text-lg font-bold">What is the challenge?</h3>
+            <p>{s.challenge}</p>
+            <h3 class="mb-1 text-lg font-bold">Why it matters on a farm</h3>
+            <p>{s.matters}</p>
+          </div>
+          <div class="prose-zen">
+            <h3 class="mb-1 text-lg font-bold">Common signs</h3>
+            <ul class="mb-4 list-disc space-y-1 pl-5">
+              {s.signs.map((x) => (
+                <li>{x}</li>
+              ))}
+            </ul>
+            <h3 class="mb-1 text-lg font-bold">How ZenAvian supports farms</h3>
+            <p>{s.support}</p>
+            {s.products.length > 0 ? (
+              <p>
+                {s.products.map((id, k) => (
+                  <>
+                    {k > 0 && ' | '}
+                    <a href={`/products/${id}`}>{byId[id]}</a>
+                  </>
+                ))}
+              </p>
+            ) : (
+              <p>
+                <a href="/contact">Contact us for guidance</a>
+              </p>
+            )}
+            <p class="flex gap-2 rounded-xl bg-white p-3 text-sm">
+              <Icon name="stethoscope" size={20} class="mt-0.5 shrink-0 text-sky-700" /> Accurate
+              diagnosis and veterinary guidance matter before any treatment decision.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section">
+    <div class="container-x max-w-3xl">
+      <SectionHeading title="Frequently asked questions" />
+      <FAQ items={faqs} />
+      <p class="mt-8 rounded-[16px] border-2 border-sky-700 p-5">
+        <strong class="text-deep">Responsible use.</strong> {responsibleUse}
+      </p>
+    </div>
+  </section>
+
+  <CTABand
+    title="Need guidance for your farm?"
+    text="Talk to us, and consult your veterinarian for diagnosis."
+    primary={{ label: 'Contact us', href: '/contact' }}
+    secondary={{ label: 'View products', href: '/products' }}
+  />
+</BaseLayout>

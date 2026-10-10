@@ -1,0 +1,82 @@
+---
+import FormShell from './FormShell.astro';
+import { PRODUCT_NAMES } from '@/lib/schemas';
+---
+
+<FormShell kind="adverse" id="adverse-form" submitLabel="Submit report">
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label class="label" for="a-fullName">
+        Your name *
+      </label>
+      <input
+        class="field"
+        id="a-fullName"
+        name="fullName"
+        autocomplete="name"
+        aria-describedby="err-fullName"
+      />
+      <p class="err" id="err-fullName" data-err="fullName"></p>
+    </div>
+    <div>
+      <label class="label" for="a-phone">
+        Phone *
+      </label>
+      <input
+        class="field"
+        id="a-phone"
+        name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        aria-describedby="err-phone"
+      />
+      <p class="err" id="err-phone" data-err="phone"></p>
+    </div>
+    <div>
+      <label class="label" for="a-email">
+        Email *
+      </label>
+      <input
+        class="field"
+        id="a-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        aria-describedby="err-email"
+      />
+      <p class="err" id="err-email" data-err="email"></p>
+    </div>
+    <div>
+      <label class="label" for="a-product">
+        Product name *
+      </label>
+      <select class="field" id="a-product" name="product" aria-describedby="err-product">
+        <option value="">Select...</option>
+        {PRODUCT_NAMES.map((n) => (
+          <option value={n}>{n}</option>
+        ))}
+      </select>
+      <p class="err" id="err-product" data-err="product"></p>
+    </div>
+    <div class="sm:col-span-2">
+      <label class="label" for="a-batch">
+        Batch number (as printed on the pack)
+      </label>
+      <input class="field" id="a-batch" name="batch" />
+    </div>
+  </div>
+  <div>
+    <label class="label" for="a-message">
+      Description of the event or feedback *
+    </label>
+    <textarea
+      class="field"
+      id="a-message"
+      name="message"
+      rows="6"
+      aria-describedby="err-message"
+    ></textarea>
+    <p class="err" id="err-message" data-err="message"></p>
+  </div>
+</FormShell>

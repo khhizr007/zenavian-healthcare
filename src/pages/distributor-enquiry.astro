@@ -1,0 +1,87 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import EnquiryForm from '@/components/EnquiryForm.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import Icon from '@/components/Icon.astro';
+import { pages } from '@/config/pages';
+import { site, phoneHref } from '@/config/site';
+
+const crumbs = [{ label: 'Distributor Enquiry', href: '/distributor-enquiry' }];
+const benefits = [
+  [
+    'shield-check',
+    'Dependable products',
+    'Poultry healthcare products from carefully selected manufacturing partners.',
+  ],
+  [
+    'handshake',
+    'Professional service',
+    'Responsive support for veterinarians, farmers and the trade.',
+  ],
+  ['badge-check', 'Quality focus', 'Attention to quality, packaging, storage and documentation.'],
+] as const;
+const phone = phoneHref();
+---
+
+<BaseLayout
+  title={pages.distributor.title}
+  description={pages.distributor.description}
+  ogImage="/og/distributor.png"
+  breadcrumbs={crumbs}
+>
+  <PageHeader
+    title="Become a Distributor"
+    intro="Partner with ZenAvian Healthcare to supply veterinarians and poultry farmers with dependable poultry healthcare products."
+    crumbs={crumbs}
+  />
+
+  <section class="section">
+    <div class="container-x grid gap-12 lg:grid-cols-5">
+      <div class="space-y-6 lg:col-span-2">
+        <h2 class="text-2xl font-extrabold">Why partner with us</h2>
+        <ul class="space-y-4">
+          {benefits.map(([i, t, d]) => (
+            <li class="flex gap-4">
+              <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mist-100 text-sky-700">
+                <Icon name={i} size={24} />
+              </span>
+              <span>
+                <strong class="block text-deep">{t}</strong>
+                {d}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <div class="rounded-[16px] bg-mist-50 p-5">
+          <p class="font-semibold text-deep">Prefer to talk?</p>
+          <div class="mt-3 flex flex-wrap gap-3">
+            <WhatsAppButton
+              inline
+              message="Hello ZenAvian Healthcare, I would like to enquire about becoming a distributor."
+              label="WhatsApp us"
+            />
+            {phone && (
+              <a class="btn-outline" href={phone}>
+                <Icon name="phone" size={20} /> {site.phone}
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-3">
+        <h2 class="mb-6 text-2xl font-extrabold">Distributor / business enquiry</h2>
+        <EnquiryForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // ?product=Cox%20Zen pre-selects the matching checkbox
+  const wanted = new URLSearchParams(location.search).get('product');
+  if (wanted)
+    document.querySelectorAll<HTMLInputElement>('input[name="products"]').forEach((c) => {
+      if (c.value === wanted) c.checked = true;
+    });
+</script>

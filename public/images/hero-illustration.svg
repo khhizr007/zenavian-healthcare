@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" role="img" aria-label="Illustration of a poultry house, laboratory flask and microscope">
+<defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E0F2FE"/></linearGradient></defs>
+<circle cx="320" cy="230" r="205" fill="url(#s)"/>
+<g fill="none" stroke="#0284C7" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M70 330V230l110-70 110 70v100z" fill="#fff"/><path d="M70 232l110-72 110 72"/><path d="M110 330v-60h40v60M210 330v-60h40v60" /><path d="M95 256h170" stroke-dasharray="4 8"/>
+<path d="M440 120h60M455 120v90l-55 100a22 22 0 0 0 20 32h100a22 22 0 0 0 20-32l-55-100v-90" fill="#fff"/><path d="M412 300h116" stroke="#0A2A66"/>
+<path d="M530 340v40M500 380h70M520 290l30-60M500 250l40 30" stroke="#0A2A66"/></g>
+<g fill="#38BDF8" fill-opacity=".55"><circle cx="440" cy="330" r="10"/><circle cx="472" cy="345" r="7"/><circle cx="496" cy="322" r="5"/></g>
+<g fill="none" stroke="#0A2A66" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M290 380c-30 0-52-22-52-48 0-20 14-34 32-38 4-24 22-38 44-38 20 0 34 12 40 28 20 2 34 16 34 34 0 38-34 62-98 62z" fill="#fff"/><path d="M342 256c-2-14-10-24-22-26" /><circle cx="318" cy="248" r="3" fill="#0A2A66"/><path d="M360 262l16 6-16 6M280 388v16M312 388v16"/></g>
+</svg>

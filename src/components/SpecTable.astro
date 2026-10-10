@@ -1,0 +1,40 @@
+---
+import { has } from '@/config/site';
+import { LABEL_REFERENCE_TEXT, type Product } from '@/lib/products';
+interface Props {
+  product: Product;
+}
+const p = Astro.props.product.data;
+const rows: [string, string][] = [
+  ['Target', p.targetSpecies.join(', ')],
+  ['Category', p.category],
+];
+const optional: [string, string | null][] = [
+  ['Composition', p.composition],
+  ['Dosage', p.dosage],
+  ['Withdrawal period', p.withdrawalPeriod],
+  ['Dosage form', p.dosageForm],
+  ['Pack sizes', p.packSizes],
+  ['Storage', p.storage],
+  ['Regulatory', p.regulatoryNote],
+];
+optional.forEach(([k, v]) => v && has(v) && rows.push([k, v]));
+const missingLabelData = !p.composition || !p.dosage || !p.withdrawalPeriod;
+---
+
+<div class="overflow-hidden rounded-[16px] border border-sky-100">
+  <table class="w-full text-left text-base">
+    <caption class="sr-only">{p.name}product specifications</caption>
+    <tbody>
+      {rows.map(([k, v]) => (
+        <tr class="border-b border-sky-100 last:border-0 even:bg-mist-50">
+          <th scope="row" class="w-2/5 px-4 py-3 align-top font-semibold text-deep">
+            {k}
+          </th>
+          <td class="px-4 py-3">{v}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+{missingLabelData && <p class="mt-3 text-sm text-muted">{LABEL_REFERENCE_TEXT}</p>}

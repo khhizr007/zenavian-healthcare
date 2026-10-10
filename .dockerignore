@@ -1,0 +1,10 @@
+node_modules
+dist
+.astro
+.git
+.wrangler
+test-results
+playwright-report
+.lighthouseci
+.env
+.dev.vars

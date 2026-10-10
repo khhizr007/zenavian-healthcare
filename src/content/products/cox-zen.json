@@ -1,0 +1,29 @@
+{
+  "seoTitle": "Cox Zen - Coccidiosis Management for Poultry",
+  "composition": null,
+  "category": "Anticoccidial",
+  "labelNote": "Composition, dosage, withdrawal period and specific claims should be displayed exactly as approved on the product label.",
+  "order": 1,
+  "packSizes": null,
+  "brochurePdf": null,
+  "image": null,
+  "seoDescription": "Cox Zen is an anticoccidial poultry healthcare product from ZenAvian Healthcare, positioned for coccidiosis management in poultry.",
+  "summary": "Cox Zen is our poultry healthcare product positioned for coccidiosis management.",
+  "storage": null,
+  "educationalNote": null,
+  "related": ["pulmo-zen", "allbact-z"],
+  "withdrawalPeriod": null,
+  "slug": "cox-zen",
+  "dosage": null,
+  "dosageForm": null,
+  "tagline": "Coccidiosis Management",
+  "keyPoints": [
+    "Coccidiosis management",
+    "Support during coccidial challenges",
+    "Helps support flock health and performance"
+  ],
+  "focusAreas": ["Coccidiosis Management"],
+  "targetSpecies": ["Poultry"],
+  "regulatoryNote": null,
+  "name": "Cox Zen"
+}

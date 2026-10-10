@@ -1,0 +1,90 @@
+---
+import { existsSync, statSync } from 'node:fs';
+import { join } from 'node:path';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import DownloadButton from '@/components/DownloadButton.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import { pages } from '@/config/pages';
+import { site } from '@/config/site';
+import { getProducts } from '@/lib/products';
+
+const products = await getProducts();
+const PDF = '/downloads/ZenAvian-Healthcare-Catalogue.pdf';
+const file = join(process.cwd(), 'public', PDF);
+const size = existsSync(file) ? `${(statSync(file).size / 1048576).toFixed(1)} MB` : null;
+const meta = [size, site.catalogue.version, site.catalogue.date].filter(Boolean).join(' | ');
+const crumbs = [{ label: 'Product Catalogue', href: '/product-catalogue' }];
+---
+
+<BaseLayout
+  title={pages.catalogue.title}
+  description={pages.catalogue.description}
+  ogImage="/og/catalogue.png"
+  breadcrumbs={crumbs}
+>
+  <PageHeader
+    title="Product Catalogue"
+    intro="Download the ZenAvian Healthcare catalogue, or compare our products below."
+    crumbs={crumbs}
+  >
+    <div class="mt-6 flex flex-wrap items-center gap-3">
+      <DownloadButton
+        href={PDF}
+        label="Download Catalogue (PDF)"
+        meta={meta}
+        track="catalogue-download"
+      />
+      <WhatsAppButton
+        inline
+        message="Hello ZenAvian Healthcare, please share your product catalogue."
+        label="Request catalogue on WhatsApp"
+      />
+    </div>
+  </PageHeader>
+
+  <section class="section">
+    <div class="container-x">
+      <h2 class="mb-6 text-3xl font-extrabold">Products at a glance</h2>
+      <div class="overflow-x-auto rounded-[16px] border border-sky-100">
+        <table class="w-full min-w-[640px] text-left">
+          <caption class="sr-only">Comparison of ZenAvian Healthcare products</caption>
+          <thead class="bg-mist-100 text-deep">
+            <tr>
+              <th scope="col" class="px-4 py-3">
+                Product
+              </th>
+              <th scope="col" class="px-4 py-3">
+                Category
+              </th>
+              <th scope="col" class="px-4 py-3">
+                Target
+              </th>
+              <th scope="col" class="px-4 py-3">
+                Key focus
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((p) => (
+              <tr class="border-t border-sky-100 align-top">
+                <th scope="row" class="px-4 py-3">
+                  <a class="font-bold text-sky-700 underline" href={`/products/${p.id}`}>
+                    {p.data.name}
+                  </a>
+                </th>
+                <td class="px-4 py-3">{p.data.category}</td>
+                <td class="px-4 py-3">{p.data.targetSpecies.join(', ')}</td>
+                <td class="px-4 py-3">{p.data.keyPoints.join('; ')}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-muted">
+        Composition, dosage and withdrawal period are as approved on the product label. Please refer
+        to the product label or contact us.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

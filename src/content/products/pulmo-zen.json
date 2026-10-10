@@ -1,0 +1,29 @@
+{
+  "seoTitle": "Pulmo Zen - Poultry Respiratory Health",
+  "composition": null,
+  "category": "Respiratory Healthcare",
+  "labelNote": "Specific indications should be based on the approved composition and product label.",
+  "order": 2,
+  "packSizes": null,
+  "brochurePdf": null,
+  "image": null,
+  "seoDescription": "Pulmo Zen is a poultry respiratory healthcare solution from ZenAvian Healthcare for farms facing respiratory challenges.",
+  "summary": "Pulmo Zen is designed as a poultry respiratory-health solution for farms facing respiratory challenges.",
+  "storage": null,
+  "educationalNote": null,
+  "related": ["bact-t-drop", "cox-zen"],
+  "withdrawalPeriod": null,
+  "slug": "pulmo-zen",
+  "dosage": null,
+  "dosageForm": null,
+  "tagline": "Respiratory Health",
+  "keyPoints": [
+    "Respiratory health",
+    "Support during respiratory challenges",
+    "Helps support flock recovery and performance"
+  ],
+  "focusAreas": ["Respiratory Health"],
+  "targetSpecies": ["Poultry"],
+  "regulatoryNote": null,
+  "name": "Pulmo Zen"
+}

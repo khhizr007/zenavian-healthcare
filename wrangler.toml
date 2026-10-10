@@ -1,0 +1,10 @@
+name = "zenavian-healthcare"
+compatibility_date = "2026-01-01"
+pages_build_output_dir = "./dist"
+
+# Create with: npx wrangler d1 create zenavian-enquiries  -> paste the id below
+[[d1_databases]]
+binding = "DB"
+database_name = "zenavian-enquiries"
+database_id = "TODO_CLIENT:d1-database-id"
+migrations_dir = "migrations"

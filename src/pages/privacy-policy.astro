@@ -1,0 +1,87 @@
+---
+import LegalLayout from '@/layouts/LegalLayout.astro';
+import { site, has, emailHref } from '@/config/site';
+const mail = emailHref('Privacy request');
+---
+
+<LegalLayout page="privacy" heading="Privacy Policy" draft>
+  <p>
+    This policy explains how {site.name} ("we", "us") handles personal data collected through this
+    website, in line with the basic requirements of India's Digital Personal Data Protection Act,
+    2023.
+  </p>
+
+  <h2>What we collect</h2>
+  <p>Only what you enter in our forms (distributor enquiry, contact and adverse-event forms):</p>
+  <ul>
+    <li>Name, company or firm name, business type</li>
+    <li>State, district or city</li>
+    <li>Phone number, WhatsApp number (optional) and email address</li>
+    <li>Products of interest and the message you write</li>
+    <li>For adverse-event reports: product name, batch number and description</li>
+  </ul>
+  <p>
+    We use privacy-friendly, cookieless analytics. We do not use advertising or tracking cookies.
+  </p>
+
+  <h2>Why we collect it</h2>
+  <p>
+    To respond to your enquiry, to follow up on distributor or business discussions, and to
+    investigate product feedback or adverse-event reports. We do not use your data for anything
+    unrelated.
+  </p>
+
+  <h2>Consent</h2>
+  <p>
+    We collect and use your data only with your consent, given by ticking the consent box on our
+    forms. You can withdraw consent at any time by contacting us; withdrawal does not affect earlier
+    lawful processing.
+  </p>
+
+  <h2>How long we keep it</h2>
+  <p>
+    We keep enquiry records only as long as needed for the purpose above and for any legal
+    requirement, and then delete them. Adverse-event records may be kept for longer where required
+    by regulation. <strong>[Retention periods to be confirmed by the company.]</strong>
+  </p>
+
+  <h2>Who we share it with</h2>
+  <p>
+    We do not sell your data. We use service providers (processors) only to operate the website: web
+    hosting and security (Cloudflare) and email delivery (Resend). They process data on our
+    instructions.
+  </p>
+
+  <h2>Your rights</h2>
+  <ul>
+    <li>Access a summary of the personal data we hold about you</li>
+    <li>Ask us to correct or erase your data</li>
+    <li>Withdraw consent</li>
+    <li>
+      Seek grievance redressal, and, if unresolved, complain to the Data Protection Board of India
+    </li>
+  </ul>
+
+  <h2>Grievances and data requests</h2>
+  <p>
+    Write to us{' '}
+    {mail ? (
+      <>
+        at <a href={mail}>{site.email}</a>
+      </>
+    ) : (
+      'using the contact page'
+    )}
+    {has(site.address.line1) && <>, or at our registered address.</>}. We will respond within a
+    reasonable time.
+  </p>
+
+  <h2>Security</h2>
+  <p>
+    The site is served over HTTPS, forms are protected against abuse, and access to stored
+    submissions is restricted.
+  </p>
+
+  <h2>Changes</h2>
+  <p>We may update this policy and will post the latest version on this page.</p>
+</LegalLayout>

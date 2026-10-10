@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import { waLink, DEFAULT_WA_MESSAGE } from '@/config/site';
+interface Props {
+  /** Floating variant is used in the layout; inline variant gives a normal button. */
+  message?: string;
+  label?: string;
+  inline?: boolean;
+  class?: string;
+}
+const {
+  message = DEFAULT_WA_MESSAGE,
+  label = 'Chat with us on WhatsApp',
+  inline = false,
+  class: cls = '',
+} = Astro.props;
+---
+
+{inline ? (
+  <a
+    href={waLink(message)}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-track="whatsapp-click"
+    class:list={['btn border-2 border-[#075E54] bg-[#075E54] text-white hover:bg-[#064c44]', cls]}
+  >
+    <Icon name="message-circle" size={20} />
+    {label}
+    <span class="sr-only">(opens WhatsApp in a new tab)</span>
+  </a>
+) : (
+  <a
+    href={waLink(message)}
+    target="_blank"
+    rel="noopener noreferrer"
+    data-track="whatsapp-float"
+    aria-label="Chat with ZenAvian Healthcare on WhatsApp (opens in a new tab)"
+    class="fixed right-4 bottom-4 z-30 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#075E54] text-white shadow-lg ring-2 ring-white hover:bg-[#064c44] print:hidden"
+  >
+    <Icon name="message-circle" size={28} />
+  </a>
+)}

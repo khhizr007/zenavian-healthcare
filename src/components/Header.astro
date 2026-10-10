@@ -1,0 +1,105 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { nav } from '@/config/site';
+const path =
+  Astro.url.pathname
+    .replace(/\.html$/, '')
+    .replace(/\/$/, '')
+    .replace(/^\/index$/, '') || '/';
+const isCurrent = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+---
+
+<header class="sticky top-0 z-40 border-b border-sky-100 bg-white/95 backdrop-blur">
+  <div class="container-x flex h-16 items-center justify-between gap-4">
+    <a href="/" class="shrink-0" aria-label="ZenAvian Healthcare - home">
+      <Logo />
+    </a>
+
+    <nav aria-label="Primary" class="hidden xl:block">
+      <ul class="flex items-center gap-5">
+        {nav.map((n) => (
+          <li>
+            <a
+              href={n.href}
+              aria-current={isCurrent(n.href) ? 'page' : undefined}
+              class:list={[
+                'inline-flex min-h-12 items-center text-sm font-semibold hover:text-sky-700',
+                isCurrent(n.href)
+                  ? 'text-sky-700 underline decoration-2 underline-offset-8'
+                  : 'text-deep',
+              ]}
+            >
+              {n.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href="/distributor-enquiry" class="btn-primary hidden !px-4 !py-2 text-sm sm:inline-flex">
+        Become a Distributor
+      </a>
+      <button
+        type="button"
+        id="menu-btn"
+        class="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-sky-200 text-deep xl:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Open menu"
+      >
+        <span data-open>
+          <Icon name="menu" />
+        </span>
+        <span data-close hidden>
+          <Icon name="x" />
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" hidden class="border-t border-sky-100 bg-white xl:hidden">
+    <nav aria-label="Mobile" class="container-x py-4">
+      <ul class="flex flex-col">
+        {nav.map((n) => (
+          <li>
+            <a
+              href={n.href}
+              aria-current={isCurrent(n.href) ? 'page' : undefined}
+              class="flex min-h-12 items-center border-b border-sky-50 text-base font-semibold text-deep aria-[current=page]:text-sky-700"
+            >
+              {n.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+      <a href="/distributor-enquiry" class="btn-primary mt-4 w-full">
+        Become a Distributor
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-btn') as HTMLButtonElement | null;
+  const menu = document.getElementById('mobile-menu');
+  if (btn && menu) {
+    const set = (open: boolean) => {
+      menu.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      btn.querySelector<HTMLElement>('[data-open]')!.hidden = open;
+      btn.querySelector<HTMLElement>('[data-close]')!.hidden = !open;
+    };
+    btn.addEventListener('click', () => set(menu.hidden));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu.hidden) {
+        set(false);
+        btn.focus();
+      }
+    });
+    matchMedia('(min-width: 1280px)').addEventListener('change', (m) => m.matches && set(false));
+  }
+</script>

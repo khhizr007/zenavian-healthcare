@@ -1,0 +1,75 @@
+---
+import StatusToast from './StatusToast.astro';
+import { has, site } from '@/config/site';
+interface Props {
+  kind: 'enquiry' | 'contact' | 'adverse';
+  submitLabel?: string;
+  id: string;
+}
+const { kind, submitLabel = 'Send enquiry', id } = Astro.props;
+const siteKey =
+  import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ||
+  (has(site.analytics.turnstileSiteKey) ? site.analytics.turnstileSiteKey : '');
+---
+
+<form
+  id={id}
+  data-form
+  data-kind={kind}
+  novalidate
+  class="space-y-5"
+  method="post"
+  action={`/api/${kind}`}
+>
+  <p class="text-sm text-muted">
+    Fields marked <span aria-hidden="true">*</span>
+    <span class="sr-only">with an asterisk</span> are required.
+  </p>
+  <slot />
+  <!-- Honeypot: hidden from people and assistive tech; bots fill it -->
+  <div aria-hidden="true" style="position:absolute;left:-9999px;height:0;overflow:hidden">
+    <label>
+      Leave this field empty
+      <input type="text" name="website" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+
+  <div>
+    <label class="flex items-start gap-3">
+      <input
+        type="checkbox"
+        name="consent"
+        class="mt-1 h-6 w-6 shrink-0 accent-sky-700"
+        aria-describedby="err-consent"
+      />
+      <span class="text-sm">
+        I agree to ZenAvian Healthcare contacting me about my enquiry and to the processing of my
+        data as described in the
+        <a href="/privacy-policy" class="font-semibold text-sky-700 underline">
+          Privacy Policy
+        </a>
+        . *
+      </span>
+    </label>
+    <p class="err" id="err-consent" data-err="consent"></p>
+  </div>
+
+  {siteKey && <div class="cf-turnstile" data-sitekey={siteKey} data-theme="light"></div>}
+
+  <button type="submit" class="btn-primary w-full sm:w-auto" data-submit>
+    {submitLabel}
+  </button>
+  <StatusToast />
+</form>
+
+{siteKey && (
+  <script
+    is:inline
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+  ></script>
+)}
+<script>
+  import '@/scripts/forms';
+</script>

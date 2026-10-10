@@ -1,0 +1,160 @@
+---
+import FormShell from './FormShell.astro';
+import { BUSINESS_TYPES, PRODUCT_NAMES } from '@/lib/schemas';
+interface Props {
+  preselect?: string;
+}
+const { preselect } = Astro.props;
+---
+
+<FormShell kind="enquiry" id="enquiry-form" submitLabel="Submit enquiry">
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label class="label" for="f-fullName">
+        Full name *
+      </label>
+      <input
+        class="field"
+        id="f-fullName"
+        name="fullName"
+        autocomplete="name"
+        aria-describedby="err-fullName"
+      />
+      <p class="err" id="err-fullName" data-err="fullName"></p>
+    </div>
+    <div>
+      <label class="label" for="f-company">
+        Company / firm name *
+      </label>
+      <input
+        class="field"
+        id="f-company"
+        name="company"
+        autocomplete="organization"
+        aria-describedby="err-company"
+      />
+      <p class="err" id="err-company" data-err="company"></p>
+    </div>
+    <div>
+      <label class="label" for="f-businessType">
+        Business type *
+      </label>
+      <select
+        class="field"
+        id="f-businessType"
+        name="businessType"
+        aria-describedby="err-businessType"
+      >
+        <option value="">Select...</option>
+        {BUSINESS_TYPES.map((b) => (
+          <option value={b}>{b}</option>
+        ))}
+      </select>
+      <p class="err" id="err-businessType" data-err="businessType"></p>
+    </div>
+    <div>
+      <label class="label" for="f-state">
+        State *
+      </label>
+      <input
+        class="field"
+        id="f-state"
+        name="state"
+        autocomplete="address-level1"
+        aria-describedby="err-state"
+      />
+      <p class="err" id="err-state" data-err="state"></p>
+    </div>
+    <div>
+      <label class="label" for="f-city">
+        District / City *
+      </label>
+      <input
+        class="field"
+        id="f-city"
+        name="city"
+        autocomplete="address-level2"
+        aria-describedby="err-city"
+      />
+      <p class="err" id="err-city" data-err="city"></p>
+    </div>
+    <div>
+      <label class="label" for="f-phone">
+        Phone *
+      </label>
+      <input
+        class="field"
+        id="f-phone"
+        name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        aria-describedby="err-phone"
+      />
+      <p class="err" id="err-phone" data-err="phone"></p>
+    </div>
+    <div>
+      <label class="label" for="f-whatsapp">
+        WhatsApp number (optional)
+      </label>
+      <input
+        class="field"
+        id="f-whatsapp"
+        name="whatsapp"
+        type="tel"
+        inputmode="tel"
+        aria-describedby="err-whatsapp"
+      />
+      <label class="mt-2 flex items-center gap-2 text-sm">
+        <input type="checkbox" id="same-wa" class="h-5 w-5 accent-sky-700" /> Same as phone
+      </label>
+      <p class="err" id="err-whatsapp" data-err="whatsapp"></p>
+    </div>
+    <div>
+      <label class="label" for="f-email">
+        Email *
+      </label>
+      <input
+        class="field"
+        id="f-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        aria-describedby="err-email"
+      />
+      <p class="err" id="err-email" data-err="email"></p>
+    </div>
+  </div>
+
+  <div>
+    <label class="label" for="f-existingBusiness">
+      Existing business / product lines (optional)
+    </label>
+    <input class="field" id="f-existingBusiness" name="existingBusiness" />
+  </div>
+
+  <fieldset>
+    <legend class="label">Products of interest</legend>
+    <div class="grid gap-2 sm:grid-cols-2">
+      {PRODUCT_NAMES.map((n) => (
+        <label class="flex min-h-12 items-center gap-3 rounded-xl border border-sky-100 px-4">
+          <input
+            type="checkbox"
+            name="products"
+            value={n}
+            checked={preselect === n}
+            class="h-5 w-5 accent-sky-700"
+          />
+          {n}
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <div>
+    <label class="label" for="f-message">
+      Message (optional)
+    </label>
+    <textarea class="field" id="f-message" name="message" rows="4"></textarea>
+  </div>
+</FormShell>

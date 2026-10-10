@@ -1,0 +1,35 @@
+---
+// Inlines a lucide icon (ISC licence) at build time from lucide-static.
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+}
+const { name, size = 24, class: cls = '' } = Astro.props;
+const raw = readFileSync(
+  join(process.cwd(), 'node_modules/lucide-static/icons', `${name}.svg`),
+  'utf8',
+);
+const inner = raw
+  .replace(/<!--[\s\S]*?-->/g, '')
+  .replace(/^[\s\S]*?<svg[^>]*>/, '')
+  .replace(/<\/svg>\s*$/, '');
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={cls}
+  aria-hidden="true"
+  focusable="false"
+  set:html={inner}
+/>

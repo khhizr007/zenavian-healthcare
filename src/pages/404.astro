@@ -1,0 +1,44 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { pages } from '@/config/pages';
+import { getProducts } from '@/lib/products';
+const products = await getProducts();
+---
+
+<BaseLayout title={pages.notFound.title} description={pages.notFound.description} noindex>
+  <section class="bg-mist section">
+    <div class="container-x max-w-2xl text-center">
+      <p class="text-sm font-bold tracking-wider text-sky-700 uppercase">Error 404</p>
+      <h1 class="mt-2 text-4xl font-extrabold">We could not find that page</h1>
+      <p class="mt-4 text-lg text-muted">
+        The link may be old or mistyped. Try one of these instead:
+      </p>
+      <ul class="mt-6 flex flex-wrap justify-center gap-3">
+        <li>
+          <a class="btn-primary" href="/">
+            Home
+          </a>
+        </li>
+        <li>
+          <a class="btn-outline" href="/products">
+            Products
+          </a>
+        </li>
+        <li>
+          <a class="btn-outline" href="/contact">
+            Contact
+          </a>
+        </li>
+      </ul>
+      <ul class="mt-6 flex flex-wrap justify-center gap-x-6 text-sky-700 underline">
+        {products.map((p) => (
+          <li>
+            <a class="inline-flex min-h-12 items-center" href={`/products/${p.id}`}>
+              {p.data.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

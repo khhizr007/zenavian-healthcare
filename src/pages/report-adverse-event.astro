@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import AdverseEventForm from '@/components/AdverseEventForm.astro';
+import { pages } from '@/config/pages';
+import { site, has, phoneHref, emailHref } from '@/config/site';
+
+const crumbs = [{ label: 'Report an Adverse Event', href: '/report-adverse-event' }];
+const phone = phoneHref();
+const mailTo = has(site.adverseEventEmail)
+  ? site.adverseEventEmail
+  : has(site.email)
+    ? site.email
+    : null;
+---
+
+<BaseLayout
+  title={pages.adverse.title}
+  description={pages.adverse.description}
+  ogImage="/og/adverse.png"
+  breadcrumbs={crumbs}
+>
+  <PageHeader
+    title="Feedback and Adverse Event Reporting"
+    intro="If you notice an unexpected effect or a product quality concern, please tell us. Your report helps us look after poultry health."
+    crumbs={crumbs}
+  />
+  <section class="section">
+    <div class="container-x grid gap-12 lg:grid-cols-5">
+      <div class="prose-zen lg:col-span-2">
+        <h2 class="mb-3 text-2xl font-extrabold">What to include</h2>
+        <ul class="list-disc space-y-1 pl-5">
+          <li>Product name and batch number (printed on the pack)</li>
+          <li>A short description of what you observed</li>
+          <li>Your contact details so we can follow up</li>
+        </ul>
+        <p class="mt-4">If birds are unwell, please contact your veterinarian immediately.</p>
+        {mailTo && (
+          <p>
+            Email: <a href={emailHref('Adverse event report') ?? `mailto:${mailTo}`}>{mailTo}</a>
+          </p>
+        )}
+        {phone && (
+          <p>
+            Phone: <a href={phone}>{site.phone}</a>
+          </p>
+        )}
+      </div>
+      <div class="lg:col-span-3">
+        <AdverseEventForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

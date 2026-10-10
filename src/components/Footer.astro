@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site, nav, has, phoneHref, emailHref, hasAddress, formattedAddress } from '@/config/site';
+const products = (await getCollection('products')).sort((a, b) => a.data.order - b.data.order);
+const socials = Object.entries(site.social).filter(([, v]) => has(v));
+const phone = phoneHref();
+const email = emailHref();
+---
+
+<footer class="on-dark bg-deep text-sky-50">
+  <div class="container-x grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
+    <div>
+      <a href="/" aria-label="ZenAvian Healthcare - home">
+        <Logo light />
+      </a>
+      <p class="mt-4 max-w-xs text-sm text-sky-100">{site.tagline}</p>
+      {socials.length > 0 && (
+        <ul class="mt-4 flex gap-4 text-sm">
+          {socials.map(([k, v]) => (
+            <li>
+              <a
+                class="inline-flex min-h-12 items-center capitalize underline"
+                href={v}
+                rel="noopener noreferrer"
+              >
+                {k}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+    <nav aria-label="Quick links">
+      <h2 class="font-display text-base font-bold !text-white">Quick links</h2>
+      <ul class="mt-3 space-y-1 text-sm">
+        {nav.map((n) => (
+          <li>
+            <a class="inline-flex min-h-8 items-center hover:underline" href={n.href}>
+              {n.label}
+            </a>
+          </li>
+        ))}
+        <li>
+          <a class="inline-flex min-h-8 items-center hover:underline" href="/distributor-enquiry">
+            Distributor enquiry
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <nav aria-label="Products">
+      <h2 class="font-display text-base font-bold !text-white">Products</h2>
+      <ul class="mt-3 space-y-1 text-sm">
+        {products.map((p) => (
+          <li>
+            <a class="inline-flex min-h-8 items-center hover:underline" href={`/products/${p.id}`}>
+              {p.data.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="font-display text-base font-bold !text-white">Contact</h2>
+      <ul class="mt-3 space-y-2 text-sm">
+        {phone && (
+          <li class="flex gap-2">
+            <Icon name="phone" size={18} class="mt-0.5 shrink-0" />
+            <a class="hover:underline" href={phone}>
+              {site.phone}
+            </a>
+          </li>
+        )}
+        {email && (
+          <li class="flex gap-2">
+            <Icon name="mail" size={18} class="mt-0.5 shrink-0" />
+            <a class="break-all hover:underline" href={email}>
+              {site.email}
+            </a>
+          </li>
+        )}
+        {hasAddress() && (
+          <li class="flex gap-2">
+            <Icon name="map-pin" size={18} class="mt-0.5 shrink-0" />
+            <span>{formattedAddress()}</span>
+          </li>
+        )}
+        <li>
+          <a class="inline-flex min-h-8 items-center underline" href="/contact">
+            Contact page and enquiry form
+          </a>
+        </li>
+        <li>
+          <a
+            class="inline-flex min-h-8 items-center font-semibold text-white underline"
+            href="/report-adverse-event"
+          >
+            Report an adverse event
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/15">
+    <div class="container-x flex flex-col gap-3 py-5 text-sm text-sky-100 sm:flex-row sm:items-center sm:justify-between">
+      <p>
+        &copy; {new Date().getFullYear()} {site.name}. All rights reserved.
+      </p>
+      <nav aria-label="Legal">
+        <ul class="flex flex-wrap gap-x-5">
+          <li>
+            <a class="inline-flex min-h-8 items-center hover:underline" href="/privacy-policy">
+              Privacy Policy
+            </a>
+          </li>
+          <li>
+            <a class="inline-flex min-h-8 items-center hover:underline" href="/terms">
+              Terms
+            </a>
+          </li>
+          <li>
+            <a class="inline-flex min-h-8 items-center hover:underline" href="/disclaimer">
+              Disclaimer
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,45 @@
+---
+import LegalLayout from '@/layouts/LegalLayout.astro';
+import { site } from '@/config/site';
+---
+
+<LegalLayout page="terms" heading="Terms of Use" draft>
+  <p>
+    By using this website you agree to these terms. If you do not agree, please do not use the site.
+  </p>
+  <h2>General information</h2>
+  <p>
+    Content on this website is provided for general awareness about {site.name} and its products. It
+    is not veterinary or medical advice.
+  </p>
+  <h2>Product use</h2>
+  <p>
+    Products must be used only as per the approved product label and under veterinary guidance.
+    Composition, dosage and withdrawal period are as approved on the label.
+  </p>
+  <h2>Intellectual property</h2>
+  <p>
+    The website content, brand names and logo belong to {site.name} or its licensors. You may not
+    copy or reuse them without written permission.
+  </p>
+  <h2>Accuracy</h2>
+  <p>
+    We take care to keep information accurate, but we do not guarantee that it is complete or
+    current. Product images may differ from the actual pack.
+  </p>
+  <h2>Links</h2>
+  <p>
+    Our site may link to third-party sites (for example Google Maps). We are not responsible for
+    their content or privacy practices.
+  </p>
+  <h2>Limitation of liability</h2>
+  <p>
+    To the extent permitted by law, we are not liable for loss arising from the use of this website
+    or reliance on its content.
+  </p>
+  <h2>Governing law</h2>
+  <p>
+    These terms are governed by the laws of India.{' '}
+    <strong>[Jurisdiction / courts to be confirmed by legal counsel.]</strong>
+  </p>
+</LegalLayout>

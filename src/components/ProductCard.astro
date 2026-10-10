@@ -1,0 +1,42 @@
+---
+import Icon from './Icon.astro';
+import { productImage, type Product } from '@/lib/products';
+interface Props {
+  product: Product;
+  lazy?: boolean;
+}
+const { product, lazy = true } = Astro.props;
+const p = product.data;
+const img = productImage(product.id);
+---
+
+<article
+  class="card flex h-full flex-col !p-0 overflow-hidden"
+  data-product
+  data-category={p.category}
+  data-species={p.targetSpecies.join('|')}
+>
+  <a href={`/products/${product.id}`} tabindex="-1" aria-hidden="true">
+    <img
+      src={img.src}
+      width="800"
+      height="600"
+      alt=""
+      loading={lazy ? 'lazy' : 'eager'}
+      decoding="async"
+      class="aspect-[4/3] w-full bg-mist-50 object-cover"
+    />
+  </a>
+  <div class="flex flex-1 flex-col p-6">
+    <p class="mb-2 inline-block self-start rounded-full bg-mist-100 px-3 py-1 text-xs font-bold text-deep">
+      {p.category}
+    </p>
+    <h3 class="text-2xl font-extrabold">{p.name}</h3>
+    <p class="mt-1 font-semibold text-sky-700">{p.tagline}</p>
+    <p class="mt-3 flex-1 text-sm text-muted">{p.summary}</p>
+    <a href={`/products/${product.id}`} class="btn-outline mt-5 self-start !min-h-12 !py-2">
+      View details<span class="sr-only"> for {p.name}</span>
+      <Icon name="arrow-right" size={18} />
+    </a>
+  </div>
+</article>

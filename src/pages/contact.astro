@@ -1,0 +1,100 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import MapEmbed from '@/components/MapEmbed.astro';
+import WhatsAppButton from '@/components/WhatsAppButton.astro';
+import Icon from '@/components/Icon.astro';
+import { pages } from '@/config/pages';
+import { site, has, phoneHref, emailHref, hasAddress, formattedAddress } from '@/config/site';
+import { contactPageSchema, localBusinessSchema } from '@/lib/seo';
+
+const crumbs = [{ label: 'Contact', href: '/contact' }];
+const phone = phoneHref();
+const email = emailHref();
+const schema = [contactPageSchema(), localBusinessSchema()].filter(
+  (x): x is Record<string, unknown> => x !== null,
+);
+---
+
+<BaseLayout
+  title={pages.contact.title}
+  description={pages.contact.description}
+  ogImage="/og/contact.png"
+  breadcrumbs={crumbs}
+  schema={schema}
+>
+  <PageHeader
+    title="Contact Us"
+    intro="Questions about our products, or interested in partnering with us? We would be glad to hear from you."
+    crumbs={crumbs}
+  />
+
+  <section class="section">
+    <div class="container-x grid gap-12 lg:grid-cols-2">
+      <div class="space-y-8">
+        <ul class="space-y-5">
+          {phone && (
+            <li class="flex gap-4">
+              <Icon name="phone" class="mt-1 text-sky-700" />
+              <span>
+                <strong class="block text-deep">Phone</strong>
+                <a class="text-sky-700 underline" href={phone}>
+                  {site.phone}
+                </a>
+              </span>
+            </li>
+          )}
+          <li class="flex gap-4">
+            <Icon name="message-circle" class="mt-1 text-sky-700" />
+            <span>
+              <strong class="block text-deep">WhatsApp</strong>
+              <WhatsAppButton inline label="Chat on WhatsApp" class="mt-1 !min-h-12 !py-2" />
+            </span>
+          </li>
+          {email && (
+            <li class="flex gap-4">
+              <Icon name="mail" class="mt-1 text-sky-700" />
+              <span>
+                <strong class="block text-deep">Email</strong>
+                <a class="break-all text-sky-700 underline" href={email}>
+                  {site.email}
+                </a>
+              </span>
+            </li>
+          )}
+          {hasAddress() && (
+            <li class="flex gap-4">
+              <Icon name="map-pin" class="mt-1 text-sky-700" />
+              <span>
+                <strong class="block text-deep">Address</strong>
+                {formattedAddress()}
+              </span>
+            </li>
+          )}
+          {has(site.businessHours) && (
+            <li class="flex gap-4">
+              <Icon name="clock" class="mt-1 text-sky-700" />
+              <span>
+                <strong class="block text-deep">Business hours</strong>
+                {site.businessHours}
+              </span>
+            </li>
+          )}
+        </ul>
+        <p>
+          Looking to supply our products?{' '}
+          <a class="font-semibold text-sky-700 underline" href="/distributor-enquiry">
+            Send a distributor enquiry
+          </a>
+          .
+        </p>
+        <MapEmbed />
+      </div>
+      <div>
+        <h2 class="mb-6 text-2xl font-extrabold">Send us a message</h2>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

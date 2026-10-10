@@ -1,0 +1,126 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Icon from '@/components/Icon.astro';
+import CTABand from '@/components/CTABand.astro';
+import { pages } from '@/config/pages';
+import { site } from '@/config/site';
+
+const crumbs = [{ label: 'Quality & Manufacturing', href: '/quality-manufacturing' }];
+const focus = [
+  ['users', 'Selection of reliable manufacturing partners'],
+  ['flask-conical', 'Quality-assured raw materials and finished products'],
+  ['scale', 'Consistent product quality'],
+  ['package', 'Proper packaging and storage'],
+  ['clipboard-check', 'Batch-wise documentation and quality checks'],
+  ['file-check', 'Compliance with applicable regulatory requirements'],
+] as const;
+const steps = [
+  ['handshake', 'Partner selection'],
+  ['flask-conical', 'Quality-checked materials'],
+  ['clipboard-check', 'Batch documentation'],
+  ['package', 'Packaging and storage'],
+  ['truck', 'Delivery to the trade'],
+] as const;
+---
+
+<BaseLayout
+  title={pages.quality.title}
+  description={pages.quality.description}
+  ogImage="/og/quality.png"
+  breadcrumbs={crumbs}
+>
+  <PageHeader
+    title="Quality You Can Trust"
+    intro="At ZenAvian Healthcare, quality is our priority. We work with carefully selected international manufacturing partners to source reliable poultry healthcare products."
+    crumbs={crumbs}
+  />
+
+  <section class="section">
+    <div class="container-x max-w-3xl">
+      <p class="text-lg">
+        Our products are sourced from approved and quality-focused manufacturers and are handled
+        according to applicable quality and regulatory requirements.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-mist section" aria-labelledby="focus-h">
+    <div class="container-x">
+      <SectionHeading id="focus-h" title="Our Quality Focus" />
+      <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {focus.map(([icon, label]) => (
+          <li class="card reveal flex items-start gap-4">
+            <span class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-mist-100 text-sky-700">
+              <Icon name={icon} size={24} />
+            </span>
+            <span class="pt-1.5 font-semibold text-deep">{label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="proc-h">
+    <div class="container-x">
+      <SectionHeading id="proc-h" title="From partner to the trade" center />
+      <ol class="grid gap-4 md:grid-cols-5">
+        {steps.map(([icon, label], i) => (
+          <li class="relative rounded-[16px] border border-sky-100 bg-white p-5 text-center shadow-[var(--shadow-soft)]">
+            <span class="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-mist-100 text-sky-700">
+              <Icon name={icon} size={24} />
+            </span>
+            <p class="text-xs font-bold text-sky-700">Step {i + 1}</p>
+            <p class="font-semibold text-deep">{label}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="bg-mist section" aria-labelledby="global-h">
+    <div class="container-x max-w-3xl text-center">
+      <SectionHeading id="global-h" title="Global Manufacturing. Local Commitment." center />
+      <p class="text-lg">
+        We combine international manufacturing expertise with our understanding of the Indian
+        poultry market to bring dependable healthcare solutions to poultry professionals.
+      </p>
+    </div>
+  </section>
+
+  {site.certifications.length > 0 && (
+    <section class="section" aria-labelledby="cert-h">
+      <div class="container-x">
+        <SectionHeading id="cert-h" title="Certifications" />
+        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {site.certifications.map((c) => (
+            <li class="card">
+              <p class="font-bold text-deep">{c.name}</p>
+              <p class="text-muted">{c.issuer}</p>
+              {c.file && (
+                <a class="mt-2 inline-block font-semibold text-sky-700 underline" href={c.file}>
+                  View certificate
+                </a>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="on-dark bg-deep py-14 text-center">
+    <div class="container-x">
+      <p class="font-display text-2xl font-extrabold text-white sm:text-3xl">
+        ZenAvian Healthcare - Quality Products. Trusted Partnerships. Better Poultry Health.
+      </p>
+    </div>
+  </section>
+  <CTABand
+    tone="light"
+    title="Questions about our products or partners?"
+    primary={{ label: 'Contact us', href: '/contact' }}
+    secondary={{ label: 'View products', href: '/products' }}
+  />
+</BaseLayout>

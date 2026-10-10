@@ -1,0 +1,70 @@
+---
+import FormShell from './FormShell.astro';
+---
+
+<FormShell kind="contact" id="contact-form" submitLabel="Send message">
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label class="label" for="c-fullName">
+        Name *
+      </label>
+      <input
+        class="field"
+        id="c-fullName"
+        name="fullName"
+        autocomplete="name"
+        aria-describedby="err-fullName"
+      />
+      <p class="err" id="err-fullName" data-err="fullName"></p>
+    </div>
+    <div>
+      <label class="label" for="c-phone">
+        Phone *
+      </label>
+      <input
+        class="field"
+        id="c-phone"
+        name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        aria-describedby="err-phone"
+      />
+      <p class="err" id="err-phone" data-err="phone"></p>
+    </div>
+    <div>
+      <label class="label" for="c-email">
+        Email *
+      </label>
+      <input
+        class="field"
+        id="c-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        aria-describedby="err-email"
+      />
+      <p class="err" id="err-email" data-err="email"></p>
+    </div>
+    <div>
+      <label class="label" for="c-subject">
+        Subject *
+      </label>
+      <input class="field" id="c-subject" name="subject" aria-describedby="err-subject" />
+      <p class="err" id="err-subject" data-err="subject"></p>
+    </div>
+  </div>
+  <div>
+    <label class="label" for="c-message">
+      Message *
+    </label>
+    <textarea
+      class="field"
+      id="c-message"
+      name="message"
+      rows="5"
+      aria-describedby="err-message"
+    ></textarea>
+    <p class="err" id="err-message" data-err="message"></p>
+  </div>
+</FormShell>

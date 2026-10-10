@@ -1,0 +1,137 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import PillarCard from '@/components/PillarCard.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import CTABand from '@/components/CTABand.astro';
+import { pages } from '@/config/pages';
+import { site, has, hasAddress, formattedAddress } from '@/config/site';
+
+const crumbs = [{ label: 'About', href: '/about' }];
+const values = [
+  {
+    icon: 'badge-check',
+    title: 'Quality',
+    text: 'Carefully selected manufacturing partners and consistent attention to quality.',
+  },
+  {
+    icon: 'lightbulb',
+    title: 'Innovation',
+    text: 'Scientific thinking applied to practical farm challenges.',
+  },
+  {
+    icon: 'shield-check',
+    title: 'Reliability',
+    text: 'Dependable products and professional service.',
+  },
+  { icon: 'handshake', title: 'Trust', text: 'Honest information and lasting relationships.' },
+];
+const showFounder = has(site.about.founderMessage);
+const showYear = has(site.about.foundingYear);
+const showTeam = site.about.team.length > 0;
+---
+
+<BaseLayout
+  title={pages.about.title}
+  description={pages.about.description}
+  ogImage="/og/about.png"
+  breadcrumbs={crumbs}
+>
+  <PageHeader
+    title="About ZenAvian Healthcare"
+    intro="A poultry-focused healthcare company supporting veterinarians, farmers and distributors across India."
+    crumbs={crumbs}
+  />
+
+  <section class="section">
+    <div class="container-x grid gap-12 lg:grid-cols-2">
+      <div class="prose-zen">
+        <h2 class="mb-4 text-3xl font-extrabold">Who we are</h2>
+        <p>
+          ZenAvian Healthcare is a poultry-focused healthcare company. We offer veterinary
+          pharmaceutical and nutritional solutions for poultry and work with international
+          manufacturing partners to bring dependable products to the Indian poultry trade.
+        </p>
+        {showYear && <p>Established in {site.about.foundingYear}.</p>}
+        {hasAddress() && <p>Registered office: {formattedAddress()}.</p>}
+      </div>
+      <div class="prose-zen">
+        <h2 class="mb-4 text-3xl font-extrabold">What we do</h2>
+        <p>
+          We focus on poultry health: from coccidiosis and respiratory challenges to bacterial
+          health and supportive care. We serve veterinarians, poultry farmers and distributors who
+          need products they can rely on and information they can trust.
+        </p>
+        <p>
+          Our products are sourced from international manufacturing partners and brought to the
+          market with an understanding of the Indian poultry industry.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-mist section">
+    <div class="container-x max-w-3xl">
+      <SectionHeading title="Our approach" />
+      <div class="prose-zen">
+        <p>
+          We believe that better poultry health starts with quality products, scientific thinking
+          and a strong understanding of real farm challenges. We encourage accurate diagnosis and
+          veterinary guidance, and we ask that every product is used strictly as per its approved
+          label.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-x">
+      <SectionHeading title="Our values" center />
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {values.map((v) => (
+          <PillarCard {...v} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {showFounder && (
+    <section class="bg-mist section">
+      <div class="container-x max-w-3xl">
+        <SectionHeading title="A message from our founder" />
+        <p class="prose-zen text-lg">{site.about.founderMessage}</p>
+      </div>
+    </section>
+  )}
+  {showTeam && (
+    <section class="section">
+      <div class="container-x">
+        <SectionHeading title="Our team" />
+        <ul class="grid gap-5 sm:grid-cols-3">
+          {site.about.team.map((t) => (
+            <li class="card">
+              <p class="font-bold text-deep">{t.name}</p>
+              <p class="text-muted">{t.role}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container-x max-w-3xl text-center">
+      <SectionHeading title="Our commitment" center />
+      <p class="text-lg">
+        Our commitment is to support poultry health through quality products, scientific thinking
+        and dependable service to the veterinarians, farmers and distributors we work with.
+      </p>
+    </div>
+  </section>
+
+  <CTABand
+    title="Explore our products or partner with us"
+    primary={{ label: 'View products', href: '/products' }}
+    secondary={{ label: 'Distributor enquiry', href: '/distributor-enquiry' }}
+  />
+</BaseLayout>

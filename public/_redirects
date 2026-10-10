@@ -1,0 +1,8 @@
+# Trailing slashes and .html are normalised automatically by Cloudflare Pages (308 to the clean URL).
+# www -> apex is configured with a Cloudflare Redirect Rule (see docs/DEPLOY.md) because the domain is not known yet.
+/index   /      301
+/home    /      301
+/index.html /   301
+/catalogue /product-catalogue 301
+/distributor /distributor-enquiry 301
+/quality /quality-manufacturing 301
