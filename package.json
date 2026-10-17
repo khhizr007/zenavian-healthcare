@@ -24,7 +24,7 @@
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
     "astro": "5.18.2",
-    "zod": "3.25.76"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
